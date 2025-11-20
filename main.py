@@ -42,7 +42,13 @@ class Sudoku_state:
         """Finds the first empty cell on the board
         Checks if it contains a 0, which represents if a cell is empty
         """
-        pass
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.board[row][col]==0:
+                    return (row, col)
+        
+        #Automatically returns None if no empty cells are found
+        return None
 
     def is_goal_satate(self):
         """Checks if this state is the same as the goal state (i.e if its solved) 
