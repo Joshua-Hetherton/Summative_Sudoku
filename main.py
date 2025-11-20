@@ -24,26 +24,35 @@ class Sudoku_state:
         return hash(str(self.board))
     
     def __eq__(self, other):
-        "Checks the equality for a set"
+        """Checks the equality for a set"""
 
         return self.board == other.board
     
     def copy(self):
+        """Creates a new copy of the state that is selected"""
         pass
 
     def valid_placement(self, row, col, num):
+        """Checks if the placement of num at row, col is a valid move"""
         pass
 
     def find_empty_cell(self):
+        """Finds the first empty cell on the board
+        Checks if it contains a 0, which represents if a cell is empty
+        """
         pass
 
     def is_goal_satate(self):
+        """Checks if this state is the same as the goal state (i.e if its solved) 
+        All Cellls MUST be filled"""
         pass
 
     def get_successor(self):
+        """ Generate all the valid possible sucessor states"""
         pass
 
     def display(self):
+        """Displays the Sudoku Board, making it easily readable"""
         pass
     
 
