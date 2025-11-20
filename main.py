@@ -9,6 +9,7 @@ low consumption of memory on your computer
 -Use descriptive statistics
 """
 import time
+import copy
 
 class Sudoku_state:
     """ A class to represent a Sudoku game state """
@@ -30,6 +31,7 @@ class Sudoku_state:
     
     def copy(self):
         """Creates a new copy of the state that is selected"""
+        return Sudoku_state([copy.deepcopy((self.board), self.size)])
         pass
 
     def valid_placement(self, row, col, num):
