@@ -16,28 +16,62 @@ class Sudoku_state:
     """ A class to represent a Sudoku game state """
 
     def __init__ (self, board, size):
+        """
+        Docstring for __init__
+        
+        :param self: Description
+        :param board: Description
+        :param size: Description
+        """
         self.board = board #2d List of Sudoku Board
         self.size = size #Size of Grid(4, 9 or 16)
         self.box_size= int(size ** 0.5) # The Size of each box
 
     def __hash__(self):
-        """Makes the state hashable so that it 
-        can be used in sets and as dictionary keys"""
+        """
+        Docstring for __hash__
+        Makes the state hashable so that it 
+        can be used in sets and as dictionary keys
+        
+        :param self: Description
+        :return: Description
+        :rtype: int
+        """
         
         return hash(str(self.board))
     
     def __eq__(self, other):
-        """Checks the equality for a set"""
+        """
+        Docstring for __eq__
+        
+        :param self: Description
+        :param other: Description
+        :return: Description
+        :rtype: Any
+        """
 
         return self.board == other.board
     
     def copy(self):
-        """Creates a new copy of the state that is selected"""
+        """
+        Docstring for copy
+        Creates a new copy of the state that is selected
+        :param self: Description
+        :return: Description
+        :rtype: Sudoku_state
+        """
         return Sudoku_state([copy.deepcopy((self.board), self.size)])
         pass
 
     def valid_placement(self, row, col, num):
-        """Checks if the placement of num at row, col is a valid move"""
+        """
+        Docstring for valid_placement
+        Checks if the placement of num at row, col is a valid move"
+        :param self: Description
+        :param row: Description
+        :param col: Description
+        :param num: Description
+        """""
 
         if num in self.board[row]:
             return False
@@ -57,8 +91,13 @@ class Sudoku_state:
 
 
     def find_empty_cell(self):
-        """Finds the first empty cell on the board
+        """
+        Docstring for find_empty_cell
+        Finds the first empty cell on the board
         Checks if it contains a 0, which represents if a cell is empty
+        :param self: Description
+        :return: Description
+        :rtype: tuple[int, int] | None
         """
         for row in range(self.size):
             for col in range(self.size):
@@ -69,14 +108,26 @@ class Sudoku_state:
         return None
 
     def is_goal_satate(self):
-        """Checks if this state is the same as the goal state (i.e if its solved) 
-        All Cellls MUST be filled"""
+        """
+        Docstring for is_goal_satate
+        Checks if this state is the same as the goal state (i.e if its solved) 
+        All Cellls MUST be filled
+        :param self: Description
+        :return: Description
+        :rtype: bool
+        """
 
         return self.find_empty_cell() is None
 
 
     def get_successor(self):
-        """ Generate all the valid possible sucessor states"""
+        """
+        Docstring for get_successor
+        Generate all the valid possible sucessor states
+        :param self: Description
+        :return: Description
+        :rtype: list
+        """
 
         sucessors=[]
         empty_cell=self.find_empty_cell()
@@ -97,7 +148,24 @@ class Sudoku_state:
         return sucessors
 
     def display(self):
-        """Displays the Sudoku Board, making it easily readable"""
+        """
+        Docstring for display
+        Displays the Sudoku Board, making it easily readable
+        :param self: Description
+        """
+
+        for i, row in enumerate(self.board):
+            if i%self.box_size==0 and i>0:
+                print("-"*(self.size*2 + self.box_size -1))
+            str_row= ""
+            for j, num in enumerate(row):
+                if i%self.box_size==0 and j>0:
+                    str_row += (str(num) if num !=0 else ".") + " "
+            print(str_row)
+
+
+
+
         pass
     
 
