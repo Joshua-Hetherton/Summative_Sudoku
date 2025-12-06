@@ -107,9 +107,9 @@ class Sudoku_state:
         #Automatically returns None if no empty cells are found
         return None
 
-    def is_goal_satate(self):
+    def is_goal_state(self):
         """
-        Docstring for is_goal_satate
+        Docstring for is_goal_state
         Checks if this state is the same as the goal state (i.e if its solved) 
         All Cellls MUST be filled
         :param self: Description
@@ -129,11 +129,11 @@ class Sudoku_state:
         :rtype: list
         """
 
-        sucessors=[]
+        successor=[]
         empty_cell=self.find_empty_cell()
 
         if empty_cell is None:
-            return sucessors
+            return successor
         
         row, col = empty_cell
         #Tries all possible Numbers in the empty cell
@@ -142,10 +142,10 @@ class Sudoku_state:
 
                 new_state= self.copy()
                 new_state.board[row][col]=num
-                sucessors.append(new_state)
+                successor.append(new_state)
 
 
-        return sucessors
+        return successor
 
     def display(self):
         """
