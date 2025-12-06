@@ -1,4 +1,4 @@
-import time
+# import time
 import copy
 """
 Sudoku Solve using Uniformed Search Techniques
@@ -63,7 +63,7 @@ class Sudoku_state:
         return Sudoku_state([copy.deepcopy((self.board), self.size)])
         pass
 
-    def valid_placement(self, row, col, num):
+    def valid_placement(self, row: int, col: int, num: int) -> bool:
         """
         Checks if the placement of num at row, col on the board is a valid move
 
@@ -81,7 +81,7 @@ class Sudoku_state:
         if num in [self.board[r][col] for r in range(self.size)]:
             return False
         
-        #Checking the Box
+        #Checking the boxes for valid placement
         box_row_start= row - row % self.box_size
         box_col_start= col - col % self.box_size
 
@@ -93,7 +93,7 @@ class Sudoku_state:
         return True
 
 
-    def find_empty_cell(self):
+    def find_empty_cell(self) -> tuple[int, int] | None:
         """
         Finds the first empty cell on the board
         Checks if it contains a 0, which represents if a cell is empty
@@ -108,7 +108,7 @@ class Sudoku_state:
         
         return None
 
-    def is_goal_state(self):
+    def is_goal_state(self) -> bool:
         """
         Checks if this state is the same as the goal state (i.e if its solved) 
         All Cellls MUST be filled
@@ -120,7 +120,7 @@ class Sudoku_state:
         return self.find_empty_cell() is None
 
 
-    def get_successor(self):
+    def get_successor(self) -> list["Sudoku_state"]:
         """
         Generate all the valid possible sucessor states
 
