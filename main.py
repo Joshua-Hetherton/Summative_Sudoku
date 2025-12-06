@@ -15,63 +15,66 @@ low consumption of memory on your computer
 class Sudoku_state:
     """ A class to represent a Sudoku game state """
 
-    def __init__ (self, board, size):
+    def __init__ (self, board:list[list[int]], size:int):
         """
-        Docstring for __init__
+        Initialises the Sudoku Game State, 
+        containing frequently used variables that are throughout the code
         
-        :param self: Description
-        :param board: Description
-        :param size: Description
+        Args:
+        list[list[int]] board: 2D list representing the Game Board
+        int size: The Size of the Board (4, 9 or 16)
+
         """
         self.board = board #2d List of Sudoku Board
         self.size = size #Size of Grid(4, 9 or 16)
         self.box_size= int(size ** 0.5) # The Size of each box
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """
-        Docstring for __hash__
         Makes the state hashable so that it 
-        can be used in sets and as dictionary keys
-        
-        :param self: Description
-        :return: Description
-        :rtype: int
+        can be used in sets and as dictionary keys, allowing greater flexibility
+
+        Returns:
+        int: Hash value of the board
         """
         
         return hash(str(self.board))
     
-    def __eq__(self, other):
+    def __eq__(self, other: object)-> bool:
         """
-        Docstring for __eq__
+        Checks if the two sudoku boards are the same
         
-        :param self: Description
-        :param other: Description
-        :return: Description
-        :rtype: Any
+        Args:
+        Object other: Another Sudoku state object
+
+        Returns:
+        bool: Returns True if the boards are the same, otherwise False
         """
 
         return self.board == other.board
     
     def copy(self):
         """
-        Docstring for copy
         Creates a new copy of the state that is selected
-        :param self: Description
-        :return: Description
-        :rtype: Sudoku_state
+
+        Returns:
+        Sudoku_state: A new copy of the current state
         """
         return Sudoku_state([copy.deepcopy((self.board), self.size)])
         pass
 
     def valid_placement(self, row, col, num):
         """
-        Docstring for valid_placement
-        Checks if the placement of num at row, col is a valid move"
-        :param self: Description
-        :param row: Description
-        :param col: Description
-        :param num: Description
-        """""
+        Checks if the placement of num at row, col on the board is a valid move
+
+        Args:
+        int row: Description
+        int col: Description
+        int num: Description
+
+        Returns:
+        bool: if the placement isn't a valid move, False, otherwise returns True
+        """
 
         if num in self.board[row]:
             return False
@@ -92,29 +95,26 @@ class Sudoku_state:
 
     def find_empty_cell(self):
         """
-        Docstring for find_empty_cell
         Finds the first empty cell on the board
         Checks if it contains a 0, which represents if a cell is empty
-        :param self: Description
-        :return: Description
-        :rtype: tuple[int, int] | None
+
+        Returns:
+        tuple[int, int] | None: Returns the row and column of the cell as a tuple, or returns None if No Empty cells are found
         """
         for row in range(self.size):
             for col in range(self.size):
                 if self.board[row][col]==0:
                     return (row, col)
         
-        #Automatically returns None if no empty cells are found
         return None
 
     def is_goal_state(self):
         """
-        Docstring for is_goal_state
         Checks if this state is the same as the goal state (i.e if its solved) 
         All Cellls MUST be filled
-        :param self: Description
-        :return: Description
-        :rtype: bool
+        
+        Returns:
+        bool: It will retrun True if non empty cells are found, otherwise returns false, allowing the game to continue
         """
 
         return self.find_empty_cell() is None
@@ -122,11 +122,10 @@ class Sudoku_state:
 
     def get_successor(self):
         """
-        Docstring for get_successor
         Generate all the valid possible sucessor states
-        :param self: Description
-        :return: Description
-        :rtype: list
+
+        Returns:
+        list[Sudoku_state]: A list of all the valid successor states in the current state (i.e the possible numbers that can be placed)
         """
 
         successor=[]
@@ -149,9 +148,10 @@ class Sudoku_state:
 
     def display(self):
         """
-        Docstring for display
         Displays the Sudoku Board, making it easily readable
-        :param self: Description
+
+        Returns:
+        None
         """
 
         for i, row in enumerate(self.board):
@@ -159,14 +159,10 @@ class Sudoku_state:
                 print("-"*(self.size*2 + self.box_size -1))
             str_row= ""
             for j, num in enumerate(row):
-                if i%self.box_size==0 and j>0:
+                if j%self.box_size==0 and j>0:
                     str_row += (str(num) if num !=0 else ".") + " "
             print(str_row)
 
-
-
-
-        pass
     
 
 
