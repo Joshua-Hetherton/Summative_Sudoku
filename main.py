@@ -55,7 +55,6 @@ class Sudoku_state:
                 
         return True
 
-        pass
 
     def find_empty_cell(self):
         """Finds the first empty cell on the board
@@ -72,11 +71,30 @@ class Sudoku_state:
     def is_goal_satate(self):
         """Checks if this state is the same as the goal state (i.e if its solved) 
         All Cellls MUST be filled"""
-        pass
+
+        return self.find_empty_cell() is None
+
 
     def get_successor(self):
         """ Generate all the valid possible sucessor states"""
-        pass
+
+        sucessors=[]
+        empty_cell=self.find_empty_cell()
+
+        if empty_cell is None:
+            return sucessors
+        
+        row, col = empty_cell
+        #Tries all possible Numbers in the empty cell
+        for num in range (1, self.size+1):
+            if self.valid_placement(row,col,num):
+
+                new_state= self.copy()
+                new_state.board[row][col]=num
+                sucessors.append(new_state)
+
+
+        return sucessors
 
     def display(self):
         """Displays the Sudoku Board, making it easily readable"""
