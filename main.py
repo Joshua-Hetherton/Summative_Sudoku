@@ -163,6 +163,18 @@ class Sudoku_state:
                     str_row += (str(num) if num !=0 else ".") + " "
             print(str_row)
 
-    
+def depth_first_search():
+    pass
+
+def breath_first_search():
+    pass
+
+def get_run_results():
+    pass
+
+def main():
+    pass
+
+if __name__ == "__main__":
 
 
