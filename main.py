@@ -1,3 +1,5 @@
+import time
+import copy
 """
 Sudoku Solve using Uniformed Search Techniques
 Uses BFS and DFS to solve the sudoku puzzles
@@ -8,8 +10,7 @@ Tracks Game States and Performance Metrics
 low consumption of memory on your computer
 -Use descriptive statistics
 """
-import time
-import copy
+
 
 class Sudoku_state:
     """ A class to represent a Sudoku game state """
@@ -22,6 +23,7 @@ class Sudoku_state:
     def __hash__(self):
         """Makes the state hashable so that it 
         can be used in sets and as dictionary keys"""
+        
         return hash(str(self.board))
     
     def __eq__(self, other):
@@ -36,6 +38,23 @@ class Sudoku_state:
 
     def valid_placement(self, row, col, num):
         """Checks if the placement of num at row, col is a valid move"""
+
+        if num in self.board[row]:
+            return False
+        if num in [self.board[r][col] for r in range(self.size)]:
+            return False
+        
+        #Checking the Box
+        box_row_start= row - row % self.box_size
+        box_col_start= col - col % self.box_size
+
+        for r in range(box_row_start, box_row_start + self.box_size):
+            for c in range(box_col_start, box_col_start + self.box_size):
+                if self.board[r][c]== num:
+                    return False
+                
+        return True
+
         pass
 
     def find_empty_cell(self):
