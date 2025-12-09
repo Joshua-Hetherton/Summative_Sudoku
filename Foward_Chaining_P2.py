@@ -1,4 +1,4 @@
-def backward_chaining():
+def forward_chaining():
     pass
 
 def display_rules():
