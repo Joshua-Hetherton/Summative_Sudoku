@@ -163,18 +163,82 @@ class Sudoku_state:
                     str_row += (str(num) if num !=0 else ".") + " "
             print(str_row)
 
-def depth_first_search():
+def depth_first_search(initial_state: Sudoku_state):
+    """
+    Performs the DFS to solve the sudoku puzzle
+    In this section, a visited set is used to keep track of all states explored, as to avoid the Multiple Parent states problem.
+    DFS is implemented using a LIFO Stack.
+    
+    Args:
+    Sudoku_state intital_state: Initial State of the Sudoku Puzzle
+
+    Returns:
+    tuple[Sudoku_state | None, int]: Returns the goal state if found, or returns None if no solution is found
+    """
+
+    #Checks if the is already in the goal state (i.e solved)
+    if initial_state.is_goal_state():
+        return initial_state ,1
+    
+    states_to_explore=[initial_state]
+
+    visited= {initial_state}
+
+    states_counter= 1
+    try:
+        while states_to_explore:
+
+            state= states_to_explore.pop()
+
+            successors= state.get_successor()
+
+            for successor in successors:
+                if successor.is_goal_state():
+                    return successor, states_counter
+
+                if successor not in visited:
+                    visited.add(successor)
+                    states_to_explore.append(successor)
+
+            return None, states_counter
+    except Exception as e:
+        print(f"Error occured while performing DFS:\n{e}\n-------\nReturning Last Values found")
+        return None, states_counter
+
+
+
+
+
+
+
     pass
 
-def breath_first_search():
+def breath_first_search(initial_state: Sudoku_state):
+    """
+    Docstring for breath_first_search
+    """
+    if initial_state.is_goal_state():
+        return initial_state ,1
+    
+
+
     pass
 
 def get_run_results():
+    """
+    Docstring for get_run_results
+    """
     pass
 
 def main():
-    pass
+    """
+    Docstring for main
+    """
+    print("Sudoku Solver using BFS:")
+    print("-"*80)
+    
+
 
 if __name__ == "__main__":
-
+    main()
 
