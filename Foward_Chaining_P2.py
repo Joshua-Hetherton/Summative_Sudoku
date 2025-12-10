@@ -97,7 +97,14 @@ Rules:
     IF attitude_stable=False AND reaction_wheel >4000 THEN attitude_status="Unstable - RW High"
     
     #Reaction Wheel Rules
+    IF reaction_wheel=0 THEN reaction_wheel_status="Failed"
+    IF reaction_wheel >5500 THEN reaction_wheel_status="Overheating"
+    IF attitude_stable=True AND reaction_wheel BETWEEN 2000 AND 4000 THEN attitude_status="Compensating"
     
+    #Orientation Rules
+    IF attitude_stable=False AND antenna_orientation="unknown" THEN craft_orientation="Tumbling"
+    IF attitude_stable=False THEN craft_orientation="Drifting"
+
     #== Onboard Computer Rules ==#
     #CPU Usage Rules
     IF CPU_usage >90 THEN CPU_status="Overloaded"
