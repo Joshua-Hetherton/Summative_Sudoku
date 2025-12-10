@@ -79,8 +79,25 @@ Rules:
     
     #== Communication System Rules ==#
 
+    #Antenna Signal Rules
+    IF antenna_signal="none" AND antenna_orientation="earth_facing" THEN communication_status="Failed"
+    IF antenna_signal="none" AND antenna_orientation="space_facing" THEN communication_status="Antenna Misaligned"
+    IF antenna_signal="none" AND antenna_orientation="unknown" THEN communication_status="Antenna Fault"
+    IF antenna_signal="weak" AND antenna_orientation="earth_facing" THEN communication_status="Degraded Signal"
+    IF antenna_signal="weak" AND battery_charge <5% THEN communication_status="Insufficient Power"
+
+    #Communication With Power Rules
+    IF antenna_signal="none" AND battery_voltage <22 THEN communication_status="Power Failure"
+    IF communication_status="Failed" AND battery_voltage >28 THEN communication_status="Antenna Failure"
+
     #== Attitude Control Rules ==#
 
+    #Stability Rules
+    IF attitude_stable=False AND reaction_wheel <1000 THEN attitude_status="Unstable - RW Low"
+    IF attitude_stable=False AND reaction_wheel >4000 THEN attitude_status="Unstable - RW High"
+    
+    #Reaction Wheel Rules
+    
     #== Onboard Computer Rules ==#
     #CPU Usage Rules
     IF CPU_usage >90 THEN CPU_status="Overloaded"
