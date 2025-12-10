@@ -1,3 +1,92 @@
+import tkinter as tk
+from tkinter import messagebox, scrolledtext
+
+class GUI:
+    
+    #=== All GUI Tasks ===#
+    def __init__(self, root):
+        self.root =  root
+        self.setup_window()
+        self.create_frame()
+        self.sidebar(self.sidebar_frame)
+
+        self.main_menu()
+        self.show_frame(self.main_menu_frame)
+        
+    def setup_window(self):
+        self.root.title("Satellite Fault Diagnosis Using Forward Chaining")
+        self.root.geometry("1080x720")
+
+    def show_frame(self, frame):
+        frame.tkraise()
+
+
+
+
+    def create_frame(self):
+        self.configure_grid_layout(self.root, 1, 2)
+        #Main menu Frame
+        self.main_menu_frame=tk.Frame(self.root, bg="white")
+
+        #Sidebar Frame
+        self.sidebar_frame=tk.Frame(self.root, bg="lightgrey")
+        self.sidebar_frame.grid(row=0, column=0, sticky="nsew")
+        # self.sidebar_frame.grid_propagate(False)
+
+
+    
+        
+        #Setting frame positions
+        self.main_menu_frame.grid(row=0, column=1, sticky="nsew")
+        
+        self.root.grid_columnconfigure(0, weight=1, minsize=150)   
+        self.root.grid_columnconfigure(1, weight=4)                
+        self.root.grid_rowconfigure(0, weight=1)
+
+
+
+    #Configuring Grid Layout
+    def configure_grid_layout(self, parent, rows, columns):
+        for row in range(rows):
+            parent.grid_rowconfigure(row, weight=1)
+        for column in range(columns):
+            parent.grid_columnconfigure(column, weight=1)
+
+
+
+
+    #Creates a button that can be clicked to access anything (self, text, colour, position x, position y, command)
+    def create_button(self, text, x_pos, y_pos, command, colour, parent,sticky=None, pad_x=5, pad_y=5):
+        button = tk.Button(parent, text=text,bg=colour, command=command)
+        #Change to grid format later
+        if sticky:
+            button.grid(row=y_pos, column=x_pos, padx=pad_x, pady=pad_y, sticky=sticky)
+        else:
+            button.grid(row=y_pos, column=x_pos, padx=pad_x, pady=pad_y)
+        return button
+
+    def create_label(self, text, x_pos, y_pos, parent, font_size=12):
+        label=tk.Label(parent, text=text, font=("Arial",font_size), bg=parent["bg"])
+        label.grid(row=y_pos, column=x_pos)
+
+    def create_entry(self,x_pos, y_pos, parent):
+        entry=tk.Entry(parent, width=30)
+        entry.grid(row=y_pos, column=x_pos)
+        return entry
+
+
+    #Welcome/Main Menu Implementation
+    def main_menu(self):
+        self.create_label("Satellite Fault Diagnosis Using Forward Chaining", 1, 2, self.main_menu_frame, font_size=20)
+        
+
+    #Sidebar Implementation
+    """Allows the User to easily navigate between the different algorithms implemented"""
+    def sidebar(self, parent):
+        self.create_button("Main Menu", 0, 0 , lambda: self.show_frame(self.main_menu_frame), "lightgrey", parent, sticky="w")
+        # self.create_button("RSA", 0, 1 , lambda: self.show_frame(self.rsa_frame), "lightgrey", parent, sticky="w")
+
+
 """
 Users can change the facts at any point, allowing the user to test diagnosing different problems
 Facts:
@@ -124,15 +213,53 @@ Rules:
 
 
 
+def get_facts():
+    facts={
+        #Power
+
+        #Thermal
+
+        #Communication
+
+        #Attitude Control
+
+        #Onboard Computer
+    }
+
+def get_rules():
+    rules=[
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+        {"conditions": [], "conslusion":""},
+
+        ]
+
 def forward_chaining():
     pass
 
-def display_rules():
-    pass
 
-
-def main():
-    pass
 
 if __name__ == "__main__":
-    main()
+    root=tk.Tk()
+    app=GUI(root)
+    root.mainloop()
