@@ -78,13 +78,16 @@ class GUI:
     #Welcome/Main Menu Implementation
     def main_menu(self):
         self.create_label("Satellite Fault Diagnosis Using Forward Chaining", 1, 2, self.main_menu_frame, font_size=20)
+        self.create_label("In this Interface, you can either change the facts or\nload a preset fact set to test the different diagnosis the Satellite Gives", 1, 3, self.main_menu_frame, font_size=12)
         
 
     #Sidebar Implementation
     """Allows the User to easily navigate between the different algorithms implemented"""
     def sidebar(self, parent):
-        self.create_button("Main Menu", 0, 0 , lambda: self.show_frame(self.main_menu_frame), "lightgrey", parent, sticky="w")
-        # self.create_button("RSA", 0, 1 , lambda: self.show_frame(self.rsa_frame), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 1", 0, 0 , lambda: "Preset 1 values", "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 2", 0, 1 , lambda: "Preset 2 values", "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 3", 0, 2 , lambda: "Preset 3 values", "lightgrey", parent, sticky="w")
+
 
 
 """
