@@ -315,7 +315,18 @@ def get_rules():
         ]
     return rules
 
-
+def eval_condition(fact_value, operator, condition_value):
+    try:
+        match operator:
+            case "==":
+                return fact_value == condition_value
+            case ">":
+                return fact_value > condition_value
+            case "<":
+                return fact_value < condition_value
+    except Exception as e:
+        print(f"Error evaluating condition: {e}")
+        return False
 
 
 def forward_chaining():
