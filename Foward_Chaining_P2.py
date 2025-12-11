@@ -215,6 +215,16 @@ Rules:
 """
 
 def get_preset(preset_value):
+    """
+    Loads a specific preset of facts that induce an intended error. 
+    This is used for convenience to easily see if the fault can be accurately diagnosed by the "satellite"
+    
+    Args:
+    preset_value (int): A number used by the switch case statement to load the specific preset selected by the user.
+
+    Returns:
+    preset (dict): A dictionary that contains all facts and values for the selcted preset, to induce the error in the "satellite"
+    """
     preset={}
     match preset_value:
 
@@ -325,6 +335,12 @@ def get_facts():
     }
 
 def get_rules():
+    """
+    List all the rules that are used in the forward chaining algorithm, to help determine what the fault is in the "satellite"
+    
+    Returns:
+    rules (list): A list of dictionaries that contains all the rules needed to diagnose the faults in the "satellite"
+    """
     rules=[
         {"conditions": [], "conslusion":""},
         {"conditions": [], "conslusion":""},
@@ -354,6 +370,7 @@ def get_rules():
     return rules
 
 def forward_chaining():
+
     pass
 
 
