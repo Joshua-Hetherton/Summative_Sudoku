@@ -214,7 +214,102 @@ Rules:
     
 """
 
+def get_preset(preset_value):
+    preset={}
+    match preset_value:
 
+        case 1:
+            #Power System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":3  ,       #0-50V
+                "battery_charge":10 ,         #0-100%
+                "solar_panel_voltage":30 ,        #0-50V
+                "solar_panel_current": 10,        #0-10A
+                "capacitor_voltage": 0,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": -50,        #-150C - 120C
+                "internal_temperature": 50,       #30-70C
+
+                #Communication
+                "antenna_signal": "strong" ,        #strong, weak, none
+                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 40,       #0-100C
+                "CPU_usage": 50,      #0-100%
+                "memory_usage": 50,       #0-100%
+                "storage_available": 37,      #0-100%
+
+            }
+            return preset
+        case 2:
+            #Thermal System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":40  ,       #0-50V
+                "battery_charge":90 ,         #0-100%
+                "solar_panel_voltage":25 ,        #0-50V
+                "solar_panel_current": 9,        #0-10A
+                "capacitor_voltage": 40,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": 120,        #-150C - 120C
+                "internal_temperature": 70,       #30-70C
+
+                #Communication
+                "antenna_signal": "weak" ,        #strong, weak, none
+                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 90,       #0-100C
+                "CPU_usage": 90,      #0-100%
+                "memory_usage": 75,       #0-100%
+                "storage_available": 77,      #0-100%
+            }
+            return preset
+        case 3:
+            #Communication System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":3  ,       #0-50V
+                "battery_charge":10 ,         #0-100%
+                "solar_panel_voltage":30 ,        #0-50V
+                "solar_panel_current": 10,        #0-10A
+                "capacitor_voltage": 0,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": -50,        #-150C - 120C
+                "internal_temperature": 30,       #30-70C
+
+                #Communication
+                "antenna_signal": "none" ,        #strong, weak, none
+                "antenna_orientation": "unknown" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 40,       #0-100C
+                "CPU_usage": 50,      #0-100%
+                "memory_usage": 50,       #0-100%
+                "storage_available": 37,      #0-100%
+            }
+            return preset
+
+
+
+    pass
 
 def get_facts():
     facts={
@@ -256,6 +351,7 @@ def get_rules():
         {"conditions": [], "conslusion":""},
 
         ]
+    return rules
 
 def forward_chaining():
     pass
