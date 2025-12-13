@@ -96,7 +96,7 @@ class GUI:
         self.create_button("Run Diagnosis", 0,7, lambda: "run diagnosis", "lightgrey",self.main_menu_frame, sticky="w")
         self.create_label("Runs the Forward Chaining Algorithms to find a diagnosis based on the inputs entered", 1,7, self.main_menu_frame, font_size=10)
 
-        self.create_button("Clear Entry", 0,8, lambda: "Clear_Entry", "lightgrey",self.main_menu_frame, sticky="w")
+        self.create_button("Clear Entry", 0,8, lambda: self.clear_facts(), "lightgrey",self.main_menu_frame, sticky="w")
         self.create_label("Clears All inputs entered", 1,8, self.main_menu_frame, font_size=10)
 
     #Sidebar Implementation
@@ -123,6 +123,12 @@ class GUI:
 
     def display_diagnosis_results(self):
         pass
+    
+    def clear_facts(self):
+        self.load_preset(4)
+        
+        pass
+
 
 
 
@@ -228,10 +234,38 @@ def get_preset(preset_value):
                 "storage_available": 37,      #0-100%
             }
             return preset
+        
+        case 4:
+            #Basic Preset
+            preset={
+                #Power
+                "battery_voltage": 0 ,       #0-50V
+                "battery_charge": 0 ,         #0-100%
+                "solar_panel_voltage": 0 ,        #0-50V
+                "solar_panel_current": 0,        #0-10A
+                "capacitor_voltage": 0,      #0-50V
 
+                #Temperature/ Thermal
+                "outside_temperature": 0 ,        #-150C - 120C
+                "internal_temperature": 0 ,       #30-70C
 
+                #Communication
+                "antenna_signal": "none" ,        #strong, weak, none
+                "antenna_orientation": "unknown" ,        #earth_facing, space_facing, unknown
 
-    pass
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 0,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 0 ,       #0-100C
+                "CPU_usage": 0 ,      #0-100%
+                "memory_usage": 0 ,       #0-100%
+                "storage_available": 0 ,      #0-100%
+
+            }
+            return preset
+
 
     """
     Facts:
