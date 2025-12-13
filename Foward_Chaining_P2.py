@@ -12,6 +12,8 @@ class GUI:
 
         self.main_menu()
         self.show_frame(self.main_menu_frame)
+
+        self.facts={}
         
     def setup_window(self):
         self.root.title("Satellite Fault Diagnosis Using Forward Chaining")
@@ -84,8 +86,8 @@ class GUI:
         
         
         #Input Area
-        self.display_facts= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
-        self.display_facts.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
+        self.display_facts_output.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
         #Output Area (Showing the diagnosis results)
         self.display_diagnosis= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
         self.display_diagnosis.grid(row=6, column=0, columnspan=3, padx=10, pady=10)
@@ -100,16 +102,21 @@ class GUI:
     #Sidebar Implementation
     """Allows the User to easily navigate between the different algorithms implemented"""
     def sidebar(self, parent):
-        self.create_button("Load Preset 1", 0, 0 , lambda: "Preset 1 values", "lightgrey", parent, sticky="w")
-        self.create_button("Load Preset 2", 0, 1 , lambda: "Preset 2 values", "lightgrey", parent, sticky="w")
-        self.create_button("Load Preset 3", 0, 2 , lambda: "Preset 3 values", "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 1", 0, 0 , lambda: self.load_preset(1), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 2", 0, 1 , lambda: self.load_preset(2), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 3", 0, 2 , lambda: self.load_preset(3), "lightgrey", parent, sticky="w")
 
 
     def load_preset(self, preset_number):
-        pass
+        self.facts = get_preset(preset_number)
+        self.display_facts()
+        self.display_diagnosis.delete(1.0, tk.END)
 
     def display_facts(self):
-        pass
+        self.display_facts_output.delete(1.0, tk.END)
+        for key, value in self.facts.items():
+            self.display_facts_output.insert(tk.END, f"{key}: {value} \n")
+
 
     def run_diagnosis(self):
         pass
@@ -226,7 +233,6 @@ def get_preset(preset_value):
 
     pass
 
-def get_facts():
     """
     Facts:
     #Power
@@ -254,17 +260,6 @@ def get_facts():
     memory_usage= 0-100%
     storage_available=0-100%
     """
-    facts={
-        #Power
-
-        #Thermal
-
-        #Communication
-
-        #Attitude Control
-
-        #Onboard Computer
-    }
 
 def get_rules():
     """
