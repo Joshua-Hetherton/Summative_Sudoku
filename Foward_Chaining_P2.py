@@ -91,7 +91,7 @@ class GUI:
         #Input Area
         self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=40, height=16)
         self.display_facts_output.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky="w")
-        
+
         #Show Range for facts
         self.display_facts_range= scrolledtext.ScrolledText(self.main_menu_frame, width=60, height=16,)
         self.display_facts_range.grid(row=5, column=1, columnspan=3, padx=10, pady=10,sticky="e")
@@ -153,6 +153,34 @@ def get_preset(preset_value):
 
     Returns:
     preset (dict): A dictionary that contains all facts and values for the selcted preset, to induce the error in the "satellite"
+    """
+    
+    """
+    Facts:
+    #Power
+    battery_voltage=0-50V
+    battery_charge=0-100%
+    solar_panel_voltage= 0-50V
+    solar_panel_current=0-10A
+    capacitor_voltage=0-50V
+
+    #Temperature/ Thermal
+    outside_temperature = -150C - 120C
+    internal_temperature= 30-70C
+
+    #Communication
+    antenna_signal= strong, weak, none
+    antenna_orientation= earth_facing, space_facing, unknown
+
+    #Attitude Control
+    attitude_stable= True/False
+    reaction_wheel= 0-6000RPM
+
+    #Onboard Computer
+    CPU_temp= 0-100C
+    CPU_usage= 0-100%
+    memory_usage= 0-100%
+    storage_available=0-100%
     """
     preset={}
     match preset_value:
@@ -309,34 +337,6 @@ def get_preset(preset_value):
         
 
 
-    """
-    Facts:
-    #Power
-    battery_voltage=0-50V
-    battery_charge=0-100%
-    solar_panel_voltage= 0-50V
-    solar_panel_current=0-10A
-    capacitor_voltage=0-50V
-
-    #Temperature/ Thermal
-    outside_temperature = -150C - 120C
-    internal_temperature= 30-70C
-
-    #Communication
-    antenna_signal= strong, weak, none
-    antenna_orientation= earth_facing, space_facing, unknown
-
-    #Attitude Control
-    attitude_stable= True/False
-    reaction_wheel= 0-6000RPM
-
-    #Onboard Computer
-    CPU_temp= 0-100C
-    CPU_usage= 0-100%
-    memory_usage= 0-100%
-    storage_available=0-100%
-    """
-
 def get_rules():
     """
     List all the rules that are used in the forward chaining algorithm, to help determine what the fault is in the "satellite"
@@ -348,69 +348,69 @@ def get_rules():
     rules=[
         #== Power System Rules ==#
         # Battery Rules
-        {"conditions": [("battery_voltage","<",20)], "conslusion":("battery_status","Critical")},
-        {"conditions": [("battery_voltage", "<", 20), ("battery_charge", "<", 20)], "conslusion":("power_system_status","Failing")},
-        {"conditions": [("battery_charge", "<", 5)], "conslusion":("power_mode","Emergency")},
-        {"conditions": [("battery_voltage",">",45)], "conslusion":("battery_status","Overcharged")},
+        {"conditions": [("battery_voltage","<",20)], "conclusion":("battery_status","Critical")},
+        {"conditions": [("battery_voltage", "<", 20), ("battery_charge", "<", 20)], "conclusion":("power_system_status","Failing")},
+        {"conditions": [("battery_charge", "<", 5)], "conclusion":("power_mode","Emergency")},
+        {"conditions": [("battery_voltage",">",45)], "conclusion":("battery_status","Overcharged")},
         #Solar Panel Rules
-        {"conditions": [("solar_panel_current","<",1), ("solar_panel_voltage", "<", 10)], "conslusion":("solar_panel_status","Failed")},
-        {"conditions": [("solar_panel_current","<",3),("solar_panel_voltage","<",15)], "conslusion":("solar_panel_status","Degraded")},
-        {"conditions": [("solar_panel_voltage","<",15),("outside_temperature",">",0)], "conslusion":("solar_panel_status","Damaged")},
+        {"conditions": [("solar_panel_current","<",1), ("solar_panel_voltage", "<", 10)], "conclusion":("solar_panel_status","Failed")},
+        {"conditions": [("solar_panel_current","<",3),("solar_panel_voltage","<",15)], "conclusion":("solar_panel_status","Degraded")},
+        {"conditions": [("solar_panel_voltage","<",15),("outside_temperature",">",0)], "conclusion":("solar_panel_status","Damaged")},
         #Charging Rules
-        {"conditions": [("battery_voltage","<",26),("solar_panel_current",">",5),("battery_charge","<",50)], "conslusion":("charging_system_status","Fault")},
-        {"conditions": [("solar_panel_current",">",0),("battery_charge","==",100),("battery_voltage",">",40)], "conslusion":("charging_system_status","Overcharging")},
+        {"conditions": [("battery_voltage","<",26),("solar_panel_current",">",5),("battery_charge","<",50)], "conclusion":("charging_system_status","Fault")},
+        {"conditions": [("solar_panel_current",">",0),("battery_charge","==",100),("battery_voltage",">",40)], "conclusion":("charging_system_status","Overcharging")},
         #Capacitor Rules
-        {"conditions": [("capacitor_voltage","<",10)], "conslusion":("capacitor_status","Depleted")},
-        {"conditions": [("capacitor_voltage",">",45)], "conslusion":("capacitor_status","Overvoltage")},
-        {"conditions": [("battery_voltage",">",30),("capacitor_voltage","<",15)], "conslusion":("capacitor_status","Failed")},
+        {"conditions": [("capacitor_voltage","<",10)], "conclusion":("capacitor_status","Depleted")},
+        {"conditions": [("capacitor_voltage",">",45)], "conclusion":("capacitor_status","Overvoltage")},
+        {"conditions": [("battery_voltage",">",30),("capacitor_voltage","<",15)], "conclusion":("capacitor_status","Failed")},
         #Combined Diagnosis Rules
-        {"conditions": [("battery_status","==","Critical"),("solar_panel_status","==","Failed")], "conslusion":("overall_power_system_status","Total Power Loss")},
-        {"conditions": [("power_system_status","==","Failing"),("charging_system_status","==","Fault")], "conslusion":("overall_power_system_status","Major Fault")},
+        {"conditions": [("battery_status","==","Critical"),("solar_panel_status","==","Failed")], "conclusion":("overall_power_system_status","Total Power Loss")},
+        {"conditions": [("power_system_status","==","Failing"),("charging_system_status","==","Fault")], "conclusion":("overall_power_system_status","Major Fault")},
 
         #== Thermal Rules ==#
         #Temperature Extremes
-        {"conditions": [("internal_temperature",">",65)], "conslusion":("thermal_status","Overheating")},
-        {"conditions": [("internal_temperature","<",30)], "conslusion":("thermal_status","Temperature Low")},
-        {"conditions": [("outside_temperature","<",-100)], "conslusion":("external_thermal_status","Extreme Cold")},
-        {"conditions": [("outside_temperature",">",100)], "conslusion":("external_thermal_status","Extreme Heat")},
+        {"conditions": [("internal_temperature",">",65)], "conclusion":("thermal_status","Overheating")},
+        {"conditions": [("internal_temperature","<",30)], "conclusion":("thermal_status","Temperature Low")},
+        {"conditions": [("outside_temperature","<",-100)], "conclusion":("external_thermal_status","Extreme Cold")},
+        {"conditions": [("outside_temperature",">",100)], "conclusion":("external_thermal_status","Extreme Heat")},
         #CPU Temperature Rules
-        {"conditions": [("CPU_temp",">",85)], "conslusion":("CPU_thermal_status","Overheating")},
-        {"conditions": [("CPU_temp",">",90)], "conslusion":("CPU_thermal_status","Critical Overheat")},
-        {"conditions": [("CPU_temp",">",75),("internal_temperature",">",60)], "conslusion":("CPU_thermal_status","Thermal Issue")},
+        {"conditions": [("CPU_temp",">",85)], "conclusion":("CPU_thermal_status","Overheating")},
+        {"conditions": [("CPU_temp",">",90)], "conclusion":("CPU_thermal_status","Critical Overheat")},
+        {"conditions": [("CPU_temp",">",75),("internal_temperature",">",60)], "conclusion":("CPU_thermal_status","Thermal Issue")},
         #Thermal Control System Rules
-        {"conditions": [("internal_temperature",">",60),("outside_temperature","<",0)], "conslusion":("thermal_control_status","Failed")},
-        {"conditions": [("internal_temperature","<",35),("outside_temperature",">",50)], "conslusion":("thermal_control_status","Inefficient")},
+        {"conditions": [("internal_temperature",">",60),("outside_temperature","<",0)], "conclusion":("thermal_control_status","Failed")},
+        {"conditions": [("internal_temperature","<",35),("outside_temperature",">",50)], "conclusion":("thermal_control_status","Inefficient")},
         #Combined Thermal Diagnosis Rules
-        {"conditions": [("CPU_thermal_status","==","Overheating"),("thermal_status","==","Overheating")], "conslusion":("thermal_subsystem_status","Emergency")},
-        {"conditions": [("external_thermal_status","==","Extreme Heat"),("internal_temperature",">",70)], "conslusion":("thermal_subsystem_status","Compromised")},
+        {"conditions": [("CPU_thermal_status","==","Overheating"),("thermal_status","==","Overheating")], "conclusion":("thermal_subsystem_status","Emergency")},
+        {"conditions": [("external_thermal_status","==","Extreme Heat"),("internal_temperature",">",70)], "conclusion":("thermal_subsystem_status","Compromised")},
         #== Communication System Rules ==#
-        {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","earth_facing")], "conslusion":("communication_status","Failed")},
-        {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","space_facing")], "conslusion":("communication_status","Antenna Misaligned")},
-        {"conditions": [("antenna_signal","==","none"),("antenna_signal","==","unknown")], "conslusion":("communication_status","Antenna Fault")},
-        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","earth_facing",)], "conslusion":("communication_status","Degraded Signal")},
+        {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","earth_facing")], "conclusion":("communication_status","Failed")},
+        {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","space_facing")], "conclusion":("communication_status","Antenna Misaligned")},
+        {"conditions": [("antenna_signal","==","none"),("antenna_signal","==","unknown")], "conclusion":("communication_status","Antenna Fault")},
+        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","earth_facing",)], "conclusion":("communication_status","Degraded Signal")},
         
-        {"conditions": [("antenna_signal","==","weak"),("battery_charge","<",5)], "conslusion":("communication_status","Insufficient Power")},
-        {"conditions": [("antenna_signal","==","none"),("battery_voltage","<",22)], "conslusion":("communication_status","Power Failure")},
-        {"conditions": [("communication_status","==","Failed"),("battery_voltage","<",28)], "conslusion":("communication_status","Antenna Failure")},
+        {"conditions": [("antenna_signal","==","weak"),("battery_charge","<",5)], "conclusion":("communication_status","Insufficient Power")},
+        {"conditions": [("antenna_signal","==","none"),("battery_voltage","<",22)], "conclusion":("communication_status","Power Failure")},
+        {"conditions": [("communication_status","==","Failed"),("battery_voltage","<",28)], "conclusion":("communication_status","Antenna Failure")},
         
         #== Attitude Control Rules ==#
         #Stability Rules
-        {"conditions": [("attitude_stable","==",False),("reaction_wheel","<",1000)], "conslusion":("attitude_status","Unstable - RW Low")},
-        {"conditions": [("attitude_stable","==",False),("reaction_wheel",">",4000)], "conslusion":("attitude_status","Unstable - RW High")},
+        {"conditions": [("attitude_stable","==",False),("reaction_wheel","<",1000)], "conclusion":("attitude_status","Unstable - RW Low")},
+        {"conditions": [("attitude_stable","==",False),("reaction_wheel",">",4000)], "conclusion":("attitude_status","Unstable - RW High")},
         #Reaction Wheel Rules
-        {"conditions": [("reaction_wheel","==",0)], "conslusion":("reaction_wheel_status","Failed")},
-        {"conditions": [("reaction_wheel",">",5500)], "conslusion":("reaction_wheel_status","Overheating")},
+        {"conditions": [("reaction_wheel","==",0)], "conclusion":("reaction_wheel_status","Failed")},
+        {"conditions": [("reaction_wheel",">",5500)], "conclusion":("reaction_wheel_status","Overheating")},
         #Orientation Rules
-        {"conditions": [("attitude_stable","==",False),("atenna_orientation","==","unknown")], "conslusion":("craft_orientation","Tumbling")},
-        {"conditions": [("attitude_stable","==",False)], "conslusion":("craft_orientation","Drifting")},
+        {"conditions": [("attitude_stable","==",False),("atenna_orientation","==","unknown")], "conclusion":("craft_orientation","Tumbling")},
+        {"conditions": [("attitude_stable","==",False)], "conclusion":("craft_orientation","Drifting")},
         #== Onboard Computer Rules ==#
         #CPU Usage Rules
-        {"conditions": [("CPU_usage",">",90)], "conslusion":("CPU_status","Overloaded")},
-        {"conditions": [("CPU_usage",">",85),("CPU_temp",">",80)], "conslusion":("CPU_status","Critical Load")},
-        {"conditions": [("memory_usage",">",90)], "conslusion":("system_status","Low Memory")},
-        {"conditions": [("memory_usage",">",85),("CPU_temp",">",70)], "conslusion":("system_status","System Strain")},
-        {"conditions": [("storage_available","<",10)], "conslusion":("storage_status","Low Storage")},
-        {"conditions": [("storage_available","<",5),("memory_usage",">",90)], "conslusion":("storage_status","Full Storage")},
+        {"conditions": [("CPU_usage",">",90)], "conclusion":("CPU_status","Overloaded")},
+        {"conditions": [("CPU_usage",">",85),("CPU_temp",">",80)], "conclusion":("CPU_status","Critical Load")},
+        {"conditions": [("memory_usage",">",90)], "conclusion":("system_status","Low Memory")},
+        {"conditions": [("memory_usage",">",85),("CPU_temp",">",70)], "conclusion":("system_status","System Strain")},
+        {"conditions": [("storage_available","<",10)], "conclusion":("storage_status","Low Storage")},
+        {"conditions": [("storage_available","<",5),("memory_usage",">",90)], "conclusion":("storage_status","Full Storage")},
 
 
         ]
