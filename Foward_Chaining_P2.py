@@ -45,6 +45,7 @@ class GUI:
 
 
 
+
     #Configuring Grid Layout
     def configure_grid_layout(self, parent, rows, columns):
         for row in range(rows):
@@ -65,7 +66,7 @@ class GUI:
             button.grid(row=y_pos, column=x_pos, padx=pad_x, pady=pad_y)
         return button
 
-    def create_label(self, text, x_pos, y_pos, parent, font_size=12):
+    def create_label(self, text, x_pos, y_pos, parent, font_size=12, sticky=None):
         label=tk.Label(parent, text=text, font=("Arial",font_size), bg=parent["bg"])
         label.grid(row=y_pos, column=x_pos)
 
@@ -80,6 +81,21 @@ class GUI:
         self.create_label("Satellite Fault Diagnosis Using Forward Chaining", 1, 2, self.main_menu_frame, font_size=20)
         self.create_label("In this Interface, you can either change the facts or\nload a preset fact set to test the different diagnosis the Satellite Gives", 1, 3, self.main_menu_frame, font_size=12)
         
+        
+        
+        #Input Area
+        self.display_facts= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
+        self.display_facts.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        #Output Area (Showing the diagnosis results)
+        self.display_diagnosis= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
+        self.display_diagnosis.grid(row=6, column=0, columnspan=3, padx=10, pady=10)
+
+        #Buttons and Labels for Diagnosis and Clearing Entry
+        self.create_button("Run Diagnosis", 0,7, lambda: "run diagnosis", "lightgrey",self.main_menu_frame, sticky="w")
+        self.create_label("Runs the Forward Chaining Algorithms to find a diagnosis based on the inputs entered", 1,7, self.main_menu_frame, font_size=10)
+
+        self.create_button("Clear Entry", 0,8, lambda: "Clear_Entry", "lightgrey",self.main_menu_frame, sticky="w")
+        self.create_label("Clears All inputs entered", 1,8, self.main_menu_frame, font_size=10)
 
     #Sidebar Implementation
     """Allows the User to easily navigate between the different algorithms implemented"""
@@ -87,6 +103,20 @@ class GUI:
         self.create_button("Load Preset 1", 0, 0 , lambda: "Preset 1 values", "lightgrey", parent, sticky="w")
         self.create_button("Load Preset 2", 0, 1 , lambda: "Preset 2 values", "lightgrey", parent, sticky="w")
         self.create_button("Load Preset 3", 0, 2 , lambda: "Preset 3 values", "lightgrey", parent, sticky="w")
+
+
+    def load_preset(self, preset_number):
+        pass
+
+    def display_facts(self):
+        pass
+
+    def run_diagnosis(self):
+        pass
+
+    def display_diagnosis_results(self):
+        pass
+
 
 
 def get_preset(preset_value):
