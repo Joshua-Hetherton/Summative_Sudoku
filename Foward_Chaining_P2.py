@@ -437,7 +437,7 @@ def check_rule(rule, facts):
     dict facts: A dictionary of the current facts and their values
 
     Returns:
-
+    bool: True if all the conditions are met, False Otherwise
     """
     for condition in rule["conditions"]:
         fact, operator, condition_value = condition
