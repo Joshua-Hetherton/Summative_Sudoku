@@ -82,15 +82,18 @@ class GUI:
     #Welcome/Main Menu Implementation
     def main_menu(self):
         self.create_label("Satellite Fault Diagnosis Using Forward Chaining", 1, 2, self.main_menu_frame, font_size=20)
-        self.create_label("In this Interface, you can either change the facts or\nload a preset fact set to test the different diagnosis the Satellite Gives", 1, 3, self.main_menu_frame, font_size=12)
+        self.create_label("""In this Interface, you can either change the facts or, load a preset fact set to test the different diagnosis the Satellite Gives 
+                        WARNING: Ensure all inputs are accurate before running diagnosis, This GUI was implemented for usability only!"""
+                          , 1, 3, self.main_menu_frame, font_size=12, sticky="w")
         
         
         
         #Input Area
-        self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=50, height=16)
+        self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=40, height=16)
         self.display_facts_output.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky="w")
+        
         #Show Range for facts
-        self.display_facts_range= scrolledtext.ScrolledText(self.main_menu_frame, width=50, height=16,)
+        self.display_facts_range= scrolledtext.ScrolledText(self.main_menu_frame, width=60, height=16,)
         self.display_facts_range.grid(row=5, column=1, columnspan=3, padx=10, pady=10,sticky="e")
         self.facts_range=get_preset("Range For Facts")
         for key, value in self.facts_range.items():
