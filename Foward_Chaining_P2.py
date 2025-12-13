@@ -428,6 +428,22 @@ def eval_condition(fact_value, operator, condition_value):
     except Exception as e:
         print(f"Error evaluating condition: {e}")
         return False
+    
+def check_rule(rule, facts):
+    """
+    Checks if all the rules are satisfied based on the current facts.
+    Args:
+    dict rule: A dictonary that contains all the rules, containing conditions and conclusions "IF _ THEN ..."
+    dict facts: A dictionary of the current facts and their values
+
+    Returns:
+
+    """
+    for condition in rule["conditions"]:
+        fact, operator, condition_value = condition
+        if fact not in facts or not eval_condition(facts[fact], operator, condition_value):
+            return False
+    return True
 
 
 def forward_chaining():
