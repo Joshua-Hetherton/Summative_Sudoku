@@ -14,6 +14,7 @@ class GUI:
         self.show_frame(self.main_menu_frame)
 
         self.facts={}
+        self.facts_range={}
         
     def setup_window(self):
         self.root.title("Satellite Fault Diagnosis Using Forward Chaining")
@@ -86,8 +87,16 @@ class GUI:
         
         
         #Input Area
-        self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
-        self.display_facts_output.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        self.display_facts_output= scrolledtext.ScrolledText(self.main_menu_frame, width=50, height=16)
+        self.display_facts_output.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky="w")
+        #Show Range for facts
+        self.display_facts_range= scrolledtext.ScrolledText(self.main_menu_frame, width=50, height=16,)
+        self.display_facts_range.grid(row=5, column=1, columnspan=3, padx=10, pady=10,sticky="e")
+        self.facts_range=get_preset("Range For Facts")
+        for key, value in self.facts_range.items():
+            self.display_facts_range.insert(tk.END, f"{key}: {value} \n")
+        self.display_facts_range.config(state=tk.DISABLED, wrap=tk.WORD)
+
         #Output Area (Showing the diagnosis results)
         self.display_diagnosis= scrolledtext.ScrolledText(self.main_menu_frame, width=100, height=15)
         self.display_diagnosis.grid(row=6, column=0, columnspan=3, padx=10, pady=10)
@@ -102,13 +111,13 @@ class GUI:
     #Sidebar Implementation
     """Allows the User to easily navigate between the different algorithms implemented"""
     def sidebar(self, parent):
-        self.create_button("Load Preset 1", 0, 0 , lambda: self.load_preset(1), "lightgrey", parent, sticky="w")
-        self.create_button("Load Preset 2", 0, 1 , lambda: self.load_preset(2), "lightgrey", parent, sticky="w")
-        self.create_button("Load Preset 3", 0, 2 , lambda: self.load_preset(3), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 1", 0, 0 , lambda: self.load_preset("Power System Failure"), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 2", 0, 1 , lambda: self.load_preset("Thermal System Failure"), "lightgrey", parent, sticky="w")
+        self.create_button("Load Preset 3", 0, 2 , lambda: self.load_preset("Communication System Failure"), "lightgrey", parent, sticky="w")
 
 
-    def load_preset(self, preset_number):
-        self.facts = get_preset(preset_number)
+    def load_preset(self, preset_name):
+        self.facts = get_preset(preset_name)
         self.display_facts()
         self.display_diagnosis.delete(1.0, tk.END)
 
@@ -126,8 +135,7 @@ class GUI:
     
     def clear_facts(self):
         self.load_preset(4)
-        
-        pass
+        self.display_diagnosis.delete(1.0, tk.END)
 
 
 
@@ -145,97 +153,7 @@ def get_preset(preset_value):
     """
     preset={}
     match preset_value:
-
-        case 1:
-            #Power System Failure Preset
-            preset={
-                #Power
-                "battery_voltage":3  ,       #0-50V
-                "battery_charge":10 ,         #0-100%
-                "solar_panel_voltage":30 ,        #0-50V
-                "solar_panel_current": 10,        #0-10A
-                "capacitor_voltage": 0,      #0-50V
-
-                #Temperature/ Thermal
-                "outside_temperature": -50,        #-150C - 120C
-                "internal_temperature": 50,       #30-70C
-
-                #Communication
-                "antenna_signal": "strong" ,        #strong, weak, none
-                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
-
-                #Attitude Control
-                "attitude_stable": True,        #True/False
-                "reaction_wheel": 3500,        #0-6000RPM
-
-                #Onboard Computer
-                "CPU_temp": 40,       #0-100C
-                "CPU_usage": 50,      #0-100%
-                "memory_usage": 50,       #0-100%
-                "storage_available": 37,      #0-100%
-
-            }
-            return preset
-        case 2:
-            #Thermal System Failure Preset
-            preset={
-                #Power
-                "battery_voltage":40  ,       #0-50V
-                "battery_charge":90 ,         #0-100%
-                "solar_panel_voltage":25 ,        #0-50V
-                "solar_panel_current": 9,        #0-10A
-                "capacitor_voltage": 40,      #0-50V
-
-                #Temperature/ Thermal
-                "outside_temperature": 120,        #-150C - 120C
-                "internal_temperature": 70,       #30-70C
-
-                #Communication
-                "antenna_signal": "weak" ,        #strong, weak, none
-                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
-
-                #Attitude Control
-                "attitude_stable": True,        #True/False
-                "reaction_wheel": 3500,        #0-6000RPM
-
-                #Onboard Computer
-                "CPU_temp": 90,       #0-100C
-                "CPU_usage": 90,      #0-100%
-                "memory_usage": 75,       #0-100%
-                "storage_available": 77,      #0-100%
-            }
-            return preset
-        case 3:
-            #Communication System Failure Preset
-            preset={
-                #Power
-                "battery_voltage":3  ,       #0-50V
-                "battery_charge":10 ,         #0-100%
-                "solar_panel_voltage":30 ,        #0-50V
-                "solar_panel_current": 10,        #0-10A
-                "capacitor_voltage": 0,      #0-50V
-
-                #Temperature/ Thermal
-                "outside_temperature": -50,        #-150C - 120C
-                "internal_temperature": 30,       #30-70C
-
-                #Communication
-                "antenna_signal": "none" ,        #strong, weak, none
-                "antenna_orientation": "unknown" ,        #earth_facing, space_facing, unknown
-
-                #Attitude Control
-                "attitude_stable": True,        #True/False
-                "reaction_wheel": 3500,        #0-6000RPM
-
-                #Onboard Computer
-                "CPU_temp": 40,       #0-100C
-                "CPU_usage": 50,      #0-100%
-                "memory_usage": 50,       #0-100%
-                "storage_available": 37,      #0-100%
-            }
-            return preset
-        
-        case 4:
+        case "Basic Preset":
             #Basic Preset
             preset={
                 #Power
@@ -265,6 +183,127 @@ def get_preset(preset_value):
 
             }
             return preset
+        
+        case "Range For Facts":
+
+            preset={
+                #Power
+                "battery_voltage": "0-50V",
+                "battery_charge":  "0-100%",         
+                "solar_panel_voltage": "0-50V",        
+                "solar_panel_current": "0-10A",        
+                "capacitor_voltage": "0-50V",     
+
+                #Temperature/ Thermal
+                "outside_temperature": "-150C - 120C",        
+                "internal_temperature": "30-70C",       
+                #Communication
+                "antenna_signal": "strong, weak, none" ,        
+                "antenna_orientation": "earth_facing, space_facing, unknown" ,        
+
+                #Attitude Control
+                "attitude_stable": "True/False",        
+                "reaction_wheel": "0-6000RPM",        
+
+                #Onboard Computer
+                "CPU_temp": "0-100C",       
+                "CPU_usage": "0-100%",      
+                "memory_usage": "0-100%",       
+                "storage_available": "0-100%",      
+
+            }
+            return preset
+        
+        case "Power System Failure":
+            #Power System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":3  ,       #0-50V
+                "battery_charge":10 ,         #0-100%
+                "solar_panel_voltage":30 ,        #0-50V
+                "solar_panel_current": 10,        #0-10A
+                "capacitor_voltage": 0,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": -50,        #-150C - 120C
+                "internal_temperature": 50,       #30-70C
+
+                #Communication
+                "antenna_signal": "strong" ,        #strong, weak, none
+                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 40,       #0-100C
+                "CPU_usage": 50,      #0-100%
+                "memory_usage": 50,       #0-100%
+                "storage_available": 37,      #0-100%
+
+            }
+            return preset
+        case "Thermal System Failure":
+            #Thermal System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":40  ,       #0-50V
+                "battery_charge":90 ,         #0-100%
+                "solar_panel_voltage":25 ,        #0-50V
+                "solar_panel_current": 9,        #0-10A
+                "capacitor_voltage": 40,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": 120,        #-150C - 120C
+                "internal_temperature": 70,       #30-70C
+
+                #Communication
+                "antenna_signal": "weak" ,        #strong, weak, none
+                "antenna_orientation": "earth_facing" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 90,       #0-100C
+                "CPU_usage": 90,      #0-100%
+                "memory_usage": 75,       #0-100%
+                "storage_available": 77,      #0-100%
+            }
+            return preset
+        case "Communication System Failure":
+            #Communication System Failure Preset
+            preset={
+                #Power
+                "battery_voltage":3  ,       #0-50V
+                "battery_charge":10 ,         #0-100%
+                "solar_panel_voltage":30 ,        #0-50V
+                "solar_panel_current": 10,        #0-10A
+                "capacitor_voltage": 0,      #0-50V
+
+                #Temperature/ Thermal
+                "outside_temperature": -50,        #-150C - 120C
+                "internal_temperature": 30,       #30-70C
+
+                #Communication
+                "antenna_signal": "none" ,        #strong, weak, none
+                "antenna_orientation": "unknown" ,        #earth_facing, space_facing, unknown
+
+                #Attitude Control
+                "attitude_stable": True,        #True/False
+                "reaction_wheel": 3500,        #0-6000RPM
+
+                #Onboard Computer
+                "CPU_temp": 40,       #0-100C
+                "CPU_usage": 50,      #0-100%
+                "memory_usage": 50,       #0-100%
+                "storage_available": 37,      #0-100%
+            }
+            return preset
+        
+        
 
 
     """
