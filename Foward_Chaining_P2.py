@@ -416,7 +416,7 @@ def get_rules():
         {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","earth_facing")], "conclusion":("communication_status","Failed")},
         {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","space_facing")], "conclusion":("communication_status","Antenna Misaligned")},
         {"conditions": [("antenna_signal","==","none"),("antenna_signal","==","unknown")], "conclusion":("communication_status","Antenna Fault")},
-        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","earth_facing",)], "conclusion":("communication_status","Degraded Signal")},
+        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","==","earth_facing",)], "conclusion":("communication_status","Degraded Signal")},
         
         {"conditions": [("antenna_signal","==","weak"),("battery_charge","<",5)], "conclusion":("communication_status","Insufficient Power")},
         {"conditions": [("antenna_signal","==","none"),("battery_voltage","<",22)], "conclusion":("communication_status","Power Failure")},
