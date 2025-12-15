@@ -502,17 +502,13 @@ def forward_chaining(initial_values, rules):
         for rule in rules:
             if check_rule(rule, initial_values):
                 conclusion_fact, conclusion_value = rule["conclusion"]
-
-                #Check if the conclusion is already present in the list of conclusions made
-                if conclusion_fact not in initial_values or initial_values[conclusion_fact] != conclusion_value:
-                    initial_values[conclusion_fact] = conclusion_value
                     
-                    #If statement to check if the fact is already present in the conclusions made, to prevent overwriting
-                    if conclusion_fact not in initial_values:
-                        #Adding the fact to the conclusions made
-                        initial_values[conclusion_fact]= conclusion_value
-                        conclusions_made.append((conclusion_fact, conclusion_value))
-                        changed = True # A new conclusion was made, but the rest should be checked as well, as to avoid missing any conclusions
+                #If statement to check if the fact is already present in the conclusions made, to prevent overwriting
+                if conclusion_fact not in initial_values:
+                    #Adding the fact to the conclusions made
+                    initial_values[conclusion_fact]= conclusion_value
+                    conclusions_made.append((conclusion_fact, conclusion_value))
+                    changed = True # A new conclusion was made, but the rest should be checked as well, as to avoid missing any conclusions
     return conclusions_made
 
 
