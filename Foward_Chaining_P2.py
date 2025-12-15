@@ -105,7 +105,7 @@ class GUI:
         self.display_diagnosis.grid(row=6, column=0, columnspan=3, padx=10, pady=10)
 
         #Buttons and Labels for Diagnosis and Clearing Entry
-        self.create_button("Run Diagnosis", 0,7, lambda: "run diagnosis", "lightgrey",self.main_menu_frame, sticky="w")
+        self.create_button("Run Diagnosis", 0,7, lambda: self.run_diagnosis(), "lightgrey",self.main_menu_frame, sticky="w")
         self.create_label("Runs the Forward Chaining Algorithms to find a diagnosis based on the inputs entered", 1,7, self.main_menu_frame, font_size=10)
 
         self.create_button("Clear Entry", 0,8, lambda: self.clear_facts(), "lightgrey",self.main_menu_frame, sticky="w")
@@ -131,13 +131,42 @@ class GUI:
 
 
     def run_diagnosis(self):
-        pass
+        """
+        Runs the forward chaining algorithm that diagnoses the fault in the satellite based on the facts given by the user.
+        
+        It first checks if any facts are loaded, then gets the rules, and runs the forward chaining algorithm; which is then displayed to the user
+
+        """
+        #Checks if any facts are loaded
+        
+        if not self.facts:
+            messagebox.showerror("Error", "No facts loaded. Please load a preset or enter facts manually.")
+            return
+        
+        rules= get_rules()
+        self.conclusions_made= forward_chaining(self.facts, rules)
+        self.display_diagnosis_results()
 
     def display_diagnosis_results(self):
-        pass
+        """
+        Displays the results found from the forward chaining algorithm to the user in the diagnosis text box
+        """
+        self.display_diagnosis.delete(1.0, tk.END)
+
+        #Displays the results from the forward chaining algorithms
+        if self.conclusions_made:
+            for conclusion_fact, conclusion_value in self.conclusions_made:
+                self.display_diagnosis.insert(tk.END, f"{conclusion_fact}: {conclusion_value}\n")
+        else:
+            self.display_diagnosis.insert(tk.END, "No faults detected based on the provided facts.\n")
+
+        
+
     
     def clear_facts(self):
-        self.load_preset(4)
+        self.facts=get_preset("Basic Preset")
+        self.display_facts()
+        self.load_preset("Basic Preset")
         self.display_diagnosis.delete(1.0, tk.END)
 
 
@@ -483,12 +512,6 @@ def forward_chaining(initial_values, rules):
                     conclusions_made.append((conclusion_fact, conclusion_value))
                     changed = True # A new conclusion was made, but the rest should be checked as well, as to avoid missing any conclusions
     return conclusions_made
-
-                
-    
-
-
-    pass
 
 
 
