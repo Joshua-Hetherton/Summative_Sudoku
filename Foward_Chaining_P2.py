@@ -184,7 +184,7 @@ def get_preset(preset_value):
     """
     preset={}
     match preset_value:
-        case "Basic Preset":
+        case "Basic Preset":    
             #Basic Preset
             preset={
                 #Power
@@ -446,7 +446,47 @@ def check_rule(rule, facts):
     return True
 
 
-def forward_chaining():
+def forward_chaining(initial_values, rules):
+    """
+    Docstring for forward_chaining
+
+    Args:
+    :param initial_facts: Description
+    :param rules: Description
+    Returns:
+    dict: Description
+    """
+    initial_values=initial_values.copy()
+
+    conclusions_made=[]
+
+    # Continuing until no new conclusions can be made from the values given
+    changed = True
+    iteration = 0
+    iteration_max = 100 # Used to prevent infinite loops within the while loop
+
+    while changed and iteration < iteration_max:
+        changed = False
+        iteration += 1
+        
+        #Checks if Any rules can be applied/met
+        for rule in rules:
+            if check_rule(rule, initial_values):
+                conclusion_fact, conclusion_value = rule["conclusion"]
+
+                #Check if the conclusion is already present in the list of conclusions made
+                if conclusion_fact not in initial_values or initial_values[conclusion_fact] != conclusion_value:
+                    initial_values[conclusion_fact] = conclusion_value
+                    
+                    #Adding the fact to the conclusions made
+                    initial_values[conclusion_fact]= conclusion_value
+                    conclusions_made.append((conclusion_fact, conclusion_value))
+                    changed = True # A new conclusion was made, but the rest should be checked as well, as to avoid missing any conclusions
+    return conclusions_made
+
+                
+    
+
 
     pass
 
