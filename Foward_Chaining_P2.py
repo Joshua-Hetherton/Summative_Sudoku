@@ -403,8 +403,8 @@ def get_rules():
         {"conditions": [("outside_temperature","<",-100)], "conclusion":("external_thermal_status","Extreme Cold")},
         {"conditions": [("outside_temperature",">",100)], "conclusion":("external_thermal_status","Extreme Heat")},
         #CPU Temperature Rules
-        {"conditions": [("CPU_temp",">",85)], "conclusion":("CPU_thermal_status","Overheating")},
         {"conditions": [("CPU_temp",">",90)], "conclusion":("CPU_thermal_status","Critical Overheat")},
+        {"conditions": [("CPU_temp",">",85)], "conclusion":("CPU_thermal_status","Overheating")},
         {"conditions": [("CPU_temp",">",75),("internal_temperature",">",60)], "conclusion":("CPU_thermal_status","Thermal Issue")},
         #Thermal Control System Rules
         {"conditions": [("internal_temperature",">",60),("outside_temperature","<",0)], "conclusion":("thermal_control_status","Failed")},
