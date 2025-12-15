@@ -129,6 +129,29 @@ class GUI:
         for key, value in self.facts.items():
             self.display_facts_output.insert(tk.END, f"{key}: {value} \n")
 
+    def get_updates_from_user(self):
+        """
+        Updates the self.facts to contain any inputs the user has changed
+        """
+        input= self.display_facts_output.get(1.0, tk.END).strip()
+        new_facts={}
+        for line in input.splitlines():
+            if ": " in line:
+                key, value =line.split(": ",1)
+                key=key.strip()
+                value=value.strip()
+
+                try:
+                    if value.lower() == "true":
+                        value = value.lower() == "true"
+                    else:
+                        value= float(value) if "." in value else int(value)
+
+                except ValueError:
+                    pass
+                new_facts[key]= value
+        self.facts=new_facts 
+        
 
     def run_diagnosis(self):
         """
@@ -142,6 +165,8 @@ class GUI:
         if not self.facts:
             messagebox.showerror("Error", "No facts loaded. Please load a preset or enter facts manually.")
             return
+        
+        self.get_updates_from_user()
         
         rules= get_rules()
         self.conclusions_made= forward_chaining(self.facts, rules)
