@@ -415,8 +415,8 @@ def get_rules():
         #== Communication System Rules ==#
         {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","earth_facing")], "conclusion":("communication_status","Failed")},
         {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","space_facing")], "conclusion":("communication_status","Antenna Misaligned")},
-        {"conditions": [("antenna_signal","==","none"),("antenna_signal","==","unknown")], "conclusion":("communication_status","Antenna Fault")},
-        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","==","earth_facing",)], "conclusion":("communication_status","Degraded Signal")},
+        {"conditions": [("antenna_signal","==","none"),("antenna_orientation","==","unknown")], "conclusion":("communication_status","Antenna Fault")},
+        {"conditions": [("antenna_signal","==","weak"),("antenna_orientation","==","earth_facing")], "conclusion":("communication_status","Degraded Signal")},
         
         {"conditions": [("antenna_signal","==","weak"),("battery_charge","<",5)], "conclusion":("communication_status","Insufficient Power")},
         {"conditions": [("antenna_signal","==","none"),("battery_voltage","<",22)], "conclusion":("communication_status","Power Failure")},
@@ -430,7 +430,7 @@ def get_rules():
         {"conditions": [("reaction_wheel","==",0)], "conclusion":("reaction_wheel_status","Failed")},
         {"conditions": [("reaction_wheel",">",5500)], "conclusion":("reaction_wheel_status","Overheating")},
         #Orientation Rules
-        {"conditions": [("attitude_stable","==",False),("atenna_orientation","==","unknown")], "conclusion":("craft_orientation","Tumbling")},
+        {"conditions": [("attitude_stable","==",False),("antenna_orientation","==","unknown")], "conclusion":("craft_orientation","Tumbling")},
         {"conditions": [("attitude_stable","==",False)], "conclusion":("craft_orientation","Drifting")},
         #== Onboard Computer Rules ==#
         #CPU Usage Rules
