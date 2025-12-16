@@ -260,10 +260,10 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
 
     if algorithm_name=="BFS":
         solution_state, states_explored= breadth_first_search(initial_state)
-        pass
+
     elif algorithm_name=="DFS":
         solution_state, states_explored= depth_first_search(initial_state)
-        pass
+
     else:
         raise ValueError("Invalid Algorithm Name, Use BFS or DFS")
     
@@ -275,15 +275,50 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
             States explored: {states_explored}
             Time taken: {running_time:.3f} seconds
             Solution Board:""")
+        
         solution_state.display()
+
     else:
         print(f"""No Solution Found
                 States explored: {states_explored}
                 Time taken: {running_time:.3f} seconds
               """)
+        
     return states_explored, running_time
 
-    pass
+def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
+    """
+    Docstring for board_sizes
+    
+    :param difficulty: Description
+    :type difficulty: str
+    :param board_size: Description
+    :type board_size: int
+    :return: Description
+    :rtype: list[list[int]]
+    """
+    match difficulty, board_size:
+        case "Easy", 4:
+            return []
+        case "Medium", 4:
+            return []
+        case "Hard", 4:
+            return []
+
+        case "Easy", 6:
+            return []
+        case "Medium", 6:
+            return []
+        case "Hard", 6:
+            return []
+
+        case "Easy", 9:
+            return []
+        case "Medium", 9:
+            return []
+        case "Hard", 9:
+            return []
+        
 
 def main():
     """
@@ -291,6 +326,7 @@ def main():
     """
     print("Sudoku Solver using BFS:")
     print("-"*80)
+    
     
 
 
