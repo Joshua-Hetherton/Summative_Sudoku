@@ -270,6 +270,19 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     end_time= time.time()
     running_time=end_time - start_time
 
+    if solution_state:
+        print(f"""\n Solution Has Been Found!
+            States explored: {states_explored}
+            Time taken: {running_time:.3f} seconds
+            Solution Board:""")
+        solution_state.display()
+    else:
+        print(f"""No Solution Found
+                States explored: {states_explored}
+                Time taken: {running_time:.3f} seconds
+              """)
+    return states_explored, running_time
+
     pass
 
 def main():
