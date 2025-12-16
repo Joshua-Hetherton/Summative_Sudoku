@@ -220,8 +220,30 @@ def breath_first_search(initial_state: Sudoku_state):
     if initial_state.is_goal_state():
         return initial_state ,1
     
+    states_to_explore=[initial_state]
+    visited={initial_state}
 
+    states_counter=1
+    try:
+        while states_to_explore:
+            state=states_to_explore.pop()
+            sucessors= state.get_successor()
 
+            for sucessor in sucessors:
+                states_counter+=1
+                if sucessor.is_goal_state():
+                    return sucessor, states_counter
+                
+                if sucessor not in visited:
+                    visited.add(sucessor)
+                    states_to_explore.append(sucessor)
+        return None, states_counter
+
+    
+
+    except Exception as e:
+        print(f"Error occured while performing BFS:\n{e}\n-------\nReturning Last Values found")
+        return None, states_counter
     pass
 
 def get_run_results():
