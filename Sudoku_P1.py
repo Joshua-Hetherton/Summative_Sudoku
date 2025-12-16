@@ -1,4 +1,4 @@
-# import time
+import time
 import copy
 from collections import deque
 """
@@ -248,10 +248,28 @@ def breadth_first_search(initial_state: Sudoku_state):
         return None, states_counter
     pass
 
-def get_run_results():
+def get_run_results(board: list[list[int]], size: int, difficulty: str, algorithm_name: str)-> tuple[int,float]:
     """
     Runs a single search and reports the results
     """
+    initial_state= Sudoku_state(board, size)
+    print("\n Initial Board:")
+    initial_state.display()
+
+    start_time= time.time()
+
+    if algorithm_name=="BFS":
+        solution_state, states_explored= breadth_first_search(initial_state)
+        pass
+    elif algorithm_name=="DFS":
+        solution_state, states_explored= depth_first_search(initial_state)
+        pass
+    else:
+        raise ValueError("Invalid Algorithm Name, Use BFS or DFS")
+    
+    end_time= time.time()
+    running_time=end_time - start_time
+
     pass
 
 def main():
