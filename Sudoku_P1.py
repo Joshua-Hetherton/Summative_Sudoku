@@ -289,13 +289,13 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
 def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
     """
     Determines the 2D list board that is to be used based off the users input of difficults and board size
-    
-    :param difficulty: Description
-    :type difficulty: str
-    :param board_size: Description
-    :type board_size: int
-    :return: Description
-    :rtype: list[list[int]]
+
+    Args:
+    str difficulty: Description
+    int board_size: Description
+
+    Returns:
+    list[list[int]]: The 2D list representing the board
     """
     match difficulty, board_size:
         case "Easy", 4:
