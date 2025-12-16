@@ -160,7 +160,8 @@ class Sudoku_state:
             str_row= ""
             for j, num in enumerate(row):
                 if j%self.box_size==0 and j>0:
-                    str_row += (str(num) if num !=0 else ".") + " "
+                    str_row+= " | "
+                str_row += (str(num) if num !=0 else ".") + " "
             print(str_row)
 
 def depth_first_search(initial_state: Sudoku_state):
@@ -272,16 +273,20 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
 
     if solution_state:
         print(f"""\n Solution Has Been Found!
-            States explored: {states_explored}
-            Time taken: {running_time:.3f} seconds
-            Solution Board:""")
+States explored: {states_explored}
+Time taken: {running_time:.8f} seconds
+Board Size: {size}x{size}
+Difficulty: {difficulty}
+Solution Board:""")
         
         solution_state.display()
 
     else:
         print(f"""No Solution Found
-                States explored: {states_explored}
-                Time taken: {running_time:.3f} seconds
+States explored: {states_explored}
+Time taken: {running_time:.8f} seconds
+Board Size: {size}x{size}
+Difficulty: {difficulty}
               """)
         
     return states_explored, running_time
@@ -395,8 +400,21 @@ def main():
     """
     Docstring for main
     """
-    print("Sudoku Solver using BFS:")
-    print("-"*80)
+    print("Sudoku Solve comparing BFS and DFS")
+
+    size_input= int(input("Select Board Size (4, 6 or 9): ").strip())
+    difficulty_input= input("Select Difficulty (Easy, Medium, Hard, Very Hard): ").strip().title()
+
+    bfs_states_explored, bfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
+    dfs_states_explored, dfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
+
+    print(f"""=============================================
+Comparison of BDFS and DFS:
+BFS: {bfs_states_explored} states explored in {bfs_runtime:.8f} seconds
+DFS: {dfs_states_explored} states explored in {dfs_runtime:.8f} seconds
+=============================================
+          """)
+
     
     
 
