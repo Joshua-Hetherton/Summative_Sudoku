@@ -288,7 +288,7 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
 
 def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
     """
-    Docstring for board_sizes
+    Determines the 2D list board that is to be used based off the users input of difficults and board size
     
     :param difficulty: Description
     :type difficulty: str
@@ -299,25 +299,74 @@ def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
     """
     match difficulty, board_size:
         case "Easy", 4:
-            return []
+            return [4, 2, 0, 0,
+                    0, 0, 0, 0,
+                    0, 3, 4 ,0,
+                    0, 0, 1, 0
+                    ]
         case "Medium", 4:
-            return []
+            return [3, 0, 1, 0,
+                    2, 0, 0, 0,
+                    0, 0, 0, 1,
+                    0, 2, 4, 0]
         case "Hard", 4:
-            return []
+            return [3, 4, 0, 0, 
+                    0, 0, 4, 0,
+                    0, 1, 0, 0,
+                    0, 0, 0, 1]
 
         case "Easy", 6:
-            return []
+            return [5, 3, 0, 4, 0, 6,
+                    4, 6, 0, 5, 3, 1,
+                    1, 2, 4, 0, 5, 3,
+                    6, 0, 3, 0, 0, 2, 
+                    3, 4, 0, 2, 1, 5,
+                    0, 1, 5, 3, 0, 4]
         case "Medium", 6:
-            return []
+            return [0, 0, 2, 1, 0, 0,
+                    0, 5, 6, 0, 4, 0,
+                    5, 0, 4, 3, 1, 6,
+                    6, 0, 3, 0, 2, 0,
+                    0, 4, 0, 6, 5, 2,
+                    2, 0, 0, 4, 0, 0]
         case "Hard", 6:
-            return []
+            return [0, 0, 0, 0, 0, 5,
+                    2, 3, 5, 0, 4, 0,
+                    0, 0, 0, 4, 2, 6,
+                    0, 4, 2, 0, 3, 0,
+                    3, 0, 1, 5, 0, 0,
+                    0, 0, 6, 0, 1, 0]
 
         case "Easy", 9:
-            return []
+            return [6, 0, 4, 5, 0, 0, 3, 9, 8,
+                    9, 0, 0, 6, 0, 0, 0, 7, 4,
+                    0, 0, 8, 0, 0, 0, 6, 2, 1,
+                    0, 0, 0, 0, 0, 0, 1, 0, 6,
+                    0, 1, 0, 4, 0, 3, 9, 5, 7,
+                    0, 8, 9, 0, 0, 6, 2, 4, 3,
+                    7, 0, 3, 0, 5, 0, 4, 1, 0,
+                    0, 0, 0, 0, 1, 0, 0, 0, 2,
+                    1, 4, 0, 0, 0, 9, 8, 0, 0]
         case "Medium", 9:
-            return []
+            return [9, 0, 0, 0, 0, 0, 0, 0, 0,
+                    6, 0, 0, 0, 1, 7, 3, 4, 2,
+                    0, 0, 0, 8, 3, 0, 0, 0, 6,
+                    0, 0, 4, 6, 0, 3, 1, 0, 0,
+                    0, 0, 0, 0, 0, 2, 5, 0, 0,
+                    3, 2, 0, 0, 0, 5, 4, 6, 7,
+                    0, 0, 0, 0, 0, 0, 0, 0, 4,
+                    7, 6, 0, 0, 0, 0, 2, 1, 5,
+                    0, 0, 0, 0, 0, 0, 6, 0, 9]
         case "Hard", 9:
-            return []
+            return [4, 0, 0, 0, 7, 0, 0, 0, 0,
+                    0, 0, 7, 0, 9, 0, 4, 0, 1,
+                    0, 1, 0, 0, 6, 0, 0, 0, 0,
+                    5, 4, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 8, 0, 0, 0, 5, 0, 2,
+                    9, 2, 0, 0, 0, 5, 0, 8, 4,
+                    0, 0, 0, 3, 0, 6, 0, 1, 0,
+                    3, 0, 0, 0, 0, 8, 0, 0, 0,
+                    0, 5, 0, 0, 2, 4, 0, 0, 7]
         
 
 def main():
