@@ -1,5 +1,6 @@
 # import time
 import copy
+from collections import deque
 """
 Sudoku Solve using Uniformed Search Techniques
 Uses BFS and DFS to solve the sudoku puzzles
@@ -60,8 +61,7 @@ class Sudoku_state:
         Returns:
         Sudoku_state: A new copy of the current state
         """
-        return Sudoku_state([copy.deepcopy((self.board), self.size)])
-        pass
+        return Sudoku_state(copy.deepcopy(self.board), self.size)
 
     def valid_placement(self, row: int, col: int, num: int) -> bool:
         """
@@ -193,40 +193,42 @@ def depth_first_search(initial_state: Sudoku_state):
             successors= state.get_successor()
 
             for successor in successors:
+                states_counter+=1
                 if successor.is_goal_state():
                     return successor, states_counter
 
                 if successor not in visited:
                     visited.add(successor)
                     states_to_explore.append(successor)
-
-            return None, states_counter
+        return None, states_counter
+        
     except Exception as e:
         print(f"Error occured while performing DFS:\n{e}\n-------\nReturning Last Values found")
         return None, states_counter
 
 
-
-
-
-
-
-    pass
-
-def breath_first_search(initial_state: Sudoku_state):
+def breadth_first_search(initial_state: Sudoku_state):
     """
-    Docstring for breath_first_search
+    Performs the DFS to solve the sudoku puzzle
+    In this section, a visited set is used to keep track of all states explored, as to avoid the Multiple Parent states problem.
+    DFS is implemented using a FIFO Queue (this is done by using popleft() from the collections.deque module, built into python)
+    
+    Args:
+    Sudoku_state intital_state: Initial State of the Sudoku Puzzle
+
+    Returns:
+    tuple[Sudoku_state | None, int]: Returns the goal state if found, or returns None if no solution is found
     """
     if initial_state.is_goal_state():
         return initial_state ,1
     
-    states_to_explore=[initial_state]
+    states_to_explore=deque([initial_state])
     visited={initial_state}
 
     states_counter=1
     try:
         while states_to_explore:
-            state=states_to_explore.pop()
+            state=states_to_explore.popleft()
             sucessors= state.get_successor()
 
             for sucessor in sucessors:
@@ -248,7 +250,7 @@ def breath_first_search(initial_state: Sudoku_state):
 
 def get_run_results():
     """
-    Docstring for get_run_results
+    Runs a single search and reports the results
     """
     pass
 
