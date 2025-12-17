@@ -395,20 +395,37 @@ def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
                     [0, 0, 0, 0, 0, 0, 0, 5, 0],
                     [1, 0, 0, 9, 0, 3, 4, 0, 0]]
         
+def write_to_file(history: list[list]):
+    """
+    Docstring for write_to_file
+    """
+    out_file=open("output.txt","a")
+    for line in history:
+        out_file.write(f"{line}\n")
+    out_file.close()
 
 def main():
     """
     Docstring for main
     """
+    history=[]
+
     print("Sudoku Solve comparing BFS and DFS")
 
     size_input= int(input("Select Board Size (4, 6 or 9): ").strip())
     difficulty_input= input("Select Difficulty (Easy, Medium, Hard, Very Hard): ").strip().title()
+    max_iterations= int(input("Enter Maximum number of iterations to run. Do less than 20, otherwise put 0: ").strip())
 
-    bfs_states_explored, bfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
-    dfs_states_explored, dfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
+    while len(history)< max_iterations:
+        bfs_states_explored, bfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
+        dfs_states_explored, dfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
 
-    print(f"""=============================================
+        history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime}", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime}"])
+
+    write_to_file(history)
+
+    print(f"""
+=============================================
 Comparison of BDFS and DFS:
 BFS: {bfs_states_explored} states explored in {bfs_runtime:.8f} seconds
 DFS: {dfs_states_explored} states explored in {dfs_runtime:.8f} seconds
