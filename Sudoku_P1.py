@@ -119,7 +119,6 @@ class Sudoku_state:
 
         return self.find_empty_cell() is None
 
-
     def get_successor(self) -> list["Sudoku_state"]:
         """
         Generate all the valid possible sucessor states
@@ -206,7 +205,6 @@ def depth_first_search(initial_state: Sudoku_state):
     except Exception as e:
         print(f"Error occured while performing DFS:\n{e}\n-------\nReturning Last Values found")
         return None, states_counter
-
 
 def breadth_first_search(initial_state: Sudoku_state):
     """
@@ -394,6 +392,17 @@ def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
                     [0, 0, 3, 0, 2, 0, 8, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 5, 0],
                     [1, 0, 0, 9, 0, 3, 4, 0, 0]]
+        #Not Possible Board
+        case "Test",9:
+            return [[5, 3, 5, 0, 0, 0, 0, 0, 0],
+                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                    [0, 0, 0, 0, 8, 0, 0, 7, 9]]
         
 def write_to_file(history: list[list]):
     """
