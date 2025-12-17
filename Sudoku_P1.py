@@ -257,7 +257,7 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     print("\n Initial Board:")
     initial_state.display()
 
-    start_time= time.time()
+    start_time= time.perf_counter()
 
     if algorithm_name=="BFS":
         solution_state, states_explored= breadth_first_search(initial_state)
@@ -268,13 +268,13 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     else:
         raise ValueError("Invalid Algorithm Name, Use BFS or DFS")
     
-    end_time= time.time()
+    end_time= time.perf_counter()
     running_time=end_time - start_time
 
     if solution_state:
         print(f"""\n Solution Has Been Found!
 States explored: {states_explored}
-Time taken: {running_time:.8f} seconds
+Time taken: {running_time:.7f} seconds
 Board Size: {size}x{size}
 Difficulty: {difficulty}
 Solution Board:""")
@@ -284,7 +284,7 @@ Solution Board:""")
     else:
         print(f"""No Solution Found
 States explored: {states_explored}
-Time taken: {running_time:.8f} seconds
+Time taken: {running_time:.7f} seconds
 Board Size: {size}x{size}
 Difficulty: {difficulty}
               """)
@@ -420,15 +420,15 @@ def main():
         bfs_states_explored, bfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
         dfs_states_explored, dfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
 
-        history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime}", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime}"])
+        history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime:.7f}", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime:.7f}"])
 
     write_to_file(history)
 
     print(f"""
 =============================================
 Comparison of BDFS and DFS:
-BFS: {bfs_states_explored} states explored in {bfs_runtime:.8f} seconds
-DFS: {dfs_states_explored} states explored in {dfs_runtime:.8f} seconds
+BFS: {bfs_states_explored} states explored in {bfs_runtime:.7f} seconds
+DFS: {dfs_states_explored} states explored in {dfs_runtime:.7f} seconds
 =============================================
           """)
 
