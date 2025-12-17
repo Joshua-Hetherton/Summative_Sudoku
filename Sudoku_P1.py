@@ -1,6 +1,7 @@
 import time
 import copy
 from collections import deque
+import tracemalloc
 """
 Sudoku Solve using Uniformed Search Techniques
 Uses BFS and DFS to solve the sudoku puzzles
@@ -251,6 +252,8 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     """
     Runs a single search and reports the results
     """
+    memory_consumption= tracemalloc.start()
+
     initial_state= Sudoku_state(board, size)
     print("\n Initial Board:")
     initial_state.display()
@@ -258,7 +261,9 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     start_time= time.perf_counter()
 
     if algorithm_name=="BFS":
+        
         solution_state, states_explored= breadth_first_search(initial_state)
+
 
     elif algorithm_name=="DFS":
         solution_state, states_explored= depth_first_search(initial_state)
@@ -268,6 +273,9 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     
     end_time= time.perf_counter()
     running_time=end_time - start_time
+
+    memory_consumption= tracemalloc.get_traced_memory()
+    tracemalloc.stop()
 
     if solution_state:
         print(f"""\n Solution Has Been Found!
@@ -287,7 +295,7 @@ Board Size: {size}x{size}
 Difficulty: {difficulty}
               """)
         
-    return states_explored, running_time
+    return states_explored, running_time, memory_consumption
 
 def board_sizes(difficulty: str, board_size: int)-> list[list[int]]:
     """
@@ -426,8 +434,8 @@ def main():
     max_iterations= int(input("Enter Maximum number of iterations to run. Do less than 20, otherwise put 0: ").strip())
 
     while len(history)< max_iterations:
-        bfs_states_explored, bfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
-        dfs_states_explored, dfs_runtime= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
+        bfs_states_explored, bfs_runtime, bfs_memory_consumption= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
+        dfs_states_explored, dfs_runtime, dfs_memory_consumption= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
 
         history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime:.7f}", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime:.7f}"])
 
@@ -435,11 +443,11 @@ def main():
 
     print(f"""
 =============================================
-Comparison of BDFS and DFS:
-BFS: {bfs_states_explored} states explored in {bfs_runtime:.7f} seconds
-DFS: {dfs_states_explored} states explored in {dfs_runtime:.7f} seconds
+Comparison of Last BFS and DFS:
+BFS: {bfs_states_explored} states explored in {bfs_runtime:.7f} seconds, Memory: {bfs_memory_consumption[1]/1024:.2f} KB
+DFS: {dfs_states_explored} states explored in {dfs_runtime:.7f} seconds, Memory: {dfs_memory_consumption[1]/1024:.2f} KB
 =============================================
-          """)
+""")
 
     
     
