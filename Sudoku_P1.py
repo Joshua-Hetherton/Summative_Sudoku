@@ -253,6 +253,7 @@ def get_run_results(board: list[list[int]], size: int, difficulty: str, algorith
     Runs a single search and reports the results
     """
     memory_consumption= tracemalloc.start()
+    # memory_consumption= (0,0)
 
     initial_state= Sudoku_state(board, size)
     print("\n Initial Board:")
@@ -437,7 +438,7 @@ def main():
         bfs_states_explored, bfs_runtime, bfs_memory_consumption= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
         dfs_states_explored, dfs_runtime, dfs_memory_consumption= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "DFS")
 
-        history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime:.7f}", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime:.7f}"])
+        history.append([size_input, difficulty_input, f"BFS States:{bfs_states_explored}", f"Runtime: {bfs_runtime:.7f}", f"Memory Consumption: {bfs_memory_consumption[1]/1024:.2f} KB", f"DFS States:{dfs_states_explored}", f"Runtime: {dfs_runtime:.7f}", f"Memory Consumption: {dfs_memory_consumption[1]/1024:.2f} KB"])
 
     write_to_file(history)
 
