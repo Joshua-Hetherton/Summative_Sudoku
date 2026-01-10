@@ -432,7 +432,7 @@ def main():
 
     size_input= int(input("Select Board Size (4, 6 or 9): ").strip())
     difficulty_input= input("Select Difficulty (Easy, Medium, Hard, Very Hard): ").strip().title()
-    max_iterations= int(input("Enter Maximum number of iterations to run. Do less than 20, otherwise put 0: ").strip())
+    max_iterations= int(input("Enter Maximum number of iterations to run. Do less than 20, otherwise put 1: ").strip())
 
     while len(history)< max_iterations:
         bfs_states_explored, bfs_runtime, bfs_memory_consumption= get_run_results(board_sizes(difficulty_input, size_input), size_input, difficulty_input, "BFS")
